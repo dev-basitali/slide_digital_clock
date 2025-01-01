@@ -22,7 +22,6 @@ class DigitalClock extends StatefulWidget {
     this.hourMinuteDigitTextStyle,
     this.secondDigitTextStyle,
     this.amPmDigitTextStyle,
-    this.amPmPosition = AmPmPosition.left,
   });
 
   /// am or pm
@@ -67,11 +66,6 @@ class DigitalClock extends StatefulWidget {
 
   /// am-pm text style
   final TextStyle? amPmDigitTextStyle;
-
-  /// Determines the position of the AM/PM indicator relative to the time (e.g., "3:00 PM" or "PM 3:00").
-  /// You can specify [AmPmPosition.left] to place it to the left of the time or [AmPmPosition.right] for the right.
-  /// Defaults to [AmPmPosition.left] if not set.
-  final AmPmPosition amPmPosition;
 
   @override
   _DigitalClockState createState() => _DigitalClockState();
@@ -124,7 +118,7 @@ class _DigitalClockState extends State<DigitalClock> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              if (widget.amPmPosition == AmPmPosition.left) _amPm,
+              _amPm,
               _hour(),
               Container(
                 alignment: AlignmentDirectional.center,
@@ -137,7 +131,6 @@ class _DigitalClockState extends State<DigitalClock> {
               ),
               _minute,
               _second,
-              if (widget.amPmPosition == AmPmPosition.right) _amPm,
             ],
           ),
         ),
@@ -155,7 +148,8 @@ class _DigitalClockState extends State<DigitalClock> {
               : hTOhh_24hFalse(_clockModel.hour)[0],
           animationStyle: widget.digitAnimationStyle,
           textStyle: widget.hourMinuteDigitTextStyle ??
-              Theme.of(context).textTheme.bodyLarge,
+              Theme.of(context).textTheme.bodyLarge
+
         ),
       );
 
@@ -167,7 +161,8 @@ class _DigitalClockState extends State<DigitalClock> {
           text: mTOmm(_clockModel.minute),
           animationStyle: widget.digitAnimationStyle,
           textStyle: widget.hourMinuteDigitTextStyle ??
-              Theme.of(context).textTheme.bodyLarge,
+              Theme.of(context).textTheme.bodyLarge
+
         ),
       );
 
@@ -181,10 +176,7 @@ class _DigitalClockState extends State<DigitalClock> {
               text: sTOss(_clockModel.second),
               animationStyle: widget.digitAnimationStyle,
               textStyle: widget.secondDigitTextStyle ??
-                  Theme.of(context)
-                      .textTheme
-                      .bodySmall!
-                      .copyWith(fontSize: 10)),
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 10)),
         )
       : SizedBox();
 
@@ -196,9 +188,7 @@ class _DigitalClockState extends State<DigitalClock> {
           child: Text(
             " " + hTOhh_24hFalse(_clockModel.hour)[1],
             style: widget.amPmDigitTextStyle ??
-                Theme.of(context)
-                    .textTheme
-                    .bodySmall!
+                style: Theme.of(context).textTheme.bodySmall!
                     .copyWith(fontSize: 10, fontWeight: FontWeight.bold),
           ),
         );
