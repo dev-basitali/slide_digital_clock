@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'helpers/colon.dart';
-
 import 'helpers/clock_model.dart';
 import 'helpers/spinner_text.dart';
 
@@ -27,18 +26,19 @@ class DigitalClock extends StatefulWidget {
   /// am or pm
   final bool? is24HourTimeFormat;
 
-  /// if you want use seconds this variable should be true
+  /// if you want to use seconds this variable should be true
   final bool? showSecondsDigit;
 
-  /// use ":"  or create your widget
+  /// use ":" or create your widget
   final Widget? colon;
-  // colon area decoraiton
+
+  /// colon area decoration
   final BoxDecoration? colonDecoration;
 
   /// clock area width
   final double? areaWidth;
 
-  ///clock area height
+  /// clock area height
   final double? areaHeight;
 
   /// clock area decoration
@@ -61,7 +61,7 @@ class DigitalClock extends StatefulWidget {
   /// hour text style
   final TextStyle? hourMinuteDigitTextStyle;
 
-  /// seconds text style,
+  /// seconds text style
   final TextStyle? secondDigitTextStyle;
 
   /// am-pm text style
@@ -83,18 +83,13 @@ class _DigitalClockState extends State<DigitalClock> {
     _clockModel = ClockModel();
     _clockModel.is24HourFormat = widget.is24HourTimeFormat ?? true;
 
-    _dateTime = DateTime.now();
-    _clockModel.hour = _dateTime.hour;
-    _clockModel.minute = _dateTime.minute;
-    _clockModel.second = _dateTime.second;
-
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      _dateTime = DateTime.now();
-      _clockModel.hour = _dateTime.hour;
-      _clockModel.minute = _dateTime.minute;
-      _clockModel.second = _dateTime.second;
-
-      setState(() {});
+      setState(() {
+        _dateTime = DateTime.now();
+        _clockModel.hour = _dateTime.hour;
+        _clockModel.minute = _dateTime.minute;
+        _clockModel.second = _dateTime.second;
+      });
     });
   }
 
@@ -109,8 +104,8 @@ class _DigitalClockState extends State<DigitalClock> {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: SizedBox(
-        width: widget.areaWidth ?? null,
-        height: widget.areaHeight ?? null,
+        width: widget.areaWidth,
+        height: widget.areaHeight,
         child: Container(
           alignment: widget.areaAligment ?? AlignmentDirectional.bottomCenter,
           decoration: widget.areaDecoration,
@@ -148,8 +143,7 @@ class _DigitalClockState extends State<DigitalClock> {
               : hTOhh_24hFalse(_clockModel.hour)[0],
           animationStyle: widget.digitAnimationStyle,
           textStyle: widget.hourMinuteDigitTextStyle ??
-              Theme.of(context).textTheme.bodyLarge
-
+              Theme.of(context).textTheme.bodyLarge,
         ),
       );
 
@@ -161,8 +155,7 @@ class _DigitalClockState extends State<DigitalClock> {
           text: mTOmm(_clockModel.minute),
           animationStyle: widget.digitAnimationStyle,
           textStyle: widget.hourMinuteDigitTextStyle ??
-              Theme.of(context).textTheme.bodyLarge
-
+              Theme.of(context).textTheme.bodyLarge,
         ),
       );
 
@@ -173,10 +166,11 @@ class _DigitalClockState extends State<DigitalClock> {
           alignment: AlignmentDirectional.center,
           decoration: widget.secondDigitDecoration,
           child: SpinnerText(
-              text: sTOss(_clockModel.second),
-              animationStyle: widget.digitAnimationStyle,
-              textStyle: widget.secondDigitTextStyle ??
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 10)),
+            text: sTOss(_clockModel.second),
+            animationStyle: widget.digitAnimationStyle,
+            textStyle: widget.secondDigitTextStyle ??
+                Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 10),
+          ),
         )
       : SizedBox();
 
@@ -188,7 +182,9 @@ class _DigitalClockState extends State<DigitalClock> {
           child: Text(
             " " + hTOhh_24hFalse(_clockModel.hour)[1],
             style: widget.amPmDigitTextStyle ??
-                style: Theme.of(context).textTheme.bodySmall!
+                Theme.of(context)
+                    .textTheme
+                    .bodySmall!
                     .copyWith(fontSize: 10, fontWeight: FontWeight.bold),
           ),
         );
